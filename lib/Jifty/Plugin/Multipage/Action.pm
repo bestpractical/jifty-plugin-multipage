@@ -83,6 +83,19 @@ around 'new' => sub {
     return $self;
 };
 
+around '_validate_argument' => sub {
+    my ($next, $self, $field) = @_;
+    return unless $field;
+
+    # Don't validate arguments we don't have if we're going to the
+    # next page; this means "mandatory" arguments don't kick in until
+    # the final submit.
+    return $self->validation_ok($field)
+        if not $self->has_argument($field) and Jifty->web->request->continuation_path;
+
+    return $next->($self, $field);
+};
+
 =head2 validate
 
 If the action doesn't validate, modify the request to not be a
