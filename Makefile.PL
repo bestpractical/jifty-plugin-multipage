@@ -3,6 +3,7 @@ name('Jifty-Plugin-Multipage');
 version_from('lib/Jifty/Plugin/Multipage.pm');
 
 requires('Jifty');
+requires('Moose');
 
 auto_install();
 tests(qw( t/*/t/*.t ));
